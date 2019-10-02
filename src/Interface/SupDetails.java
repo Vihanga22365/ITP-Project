@@ -14,6 +14,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -58,9 +59,26 @@ public class SupDetails extends javax.swing.JFrame {
     {
         
         if      (sidbox.getText().equals("")||snamebox.getText().equals("")
-                ||semailbox.getText().equals("")||smobilebox.getText().equals(""))
+                 ||semailbox.getText().equals("")
+                //|| (!semailbox.getText().equals("") && (!Pattern.matches("^[A-Za-z0-9_.]+[@][A-Za-z.]+$",semailbox.getText()) ))
+                ||smobilebox.getText().equals("")
+               // || (!Pattern.matches("\\d{10}",smobilebox.getText()))
+                )
+            
         {
             JOptionPane.showMessageDialog(null,"One or More Field Empty.");
+            return false;
+        }
+        
+        else if ((!Pattern.matches("\\d{10}",smobilebox.getText())))
+        {
+            JOptionPane.showMessageDialog(null,"Phone Number Invalid Length");
+            return false;
+        }
+        
+        else if ((!semailbox.getText().equals("") && (!Pattern.matches("^[A-Za-z0-9_.]+[@][A-Za-z.]+$",semailbox.getText()) )))
+        {
+            JOptionPane.showMessageDialog(null,"Invalid Email");
             return false;
         }
  

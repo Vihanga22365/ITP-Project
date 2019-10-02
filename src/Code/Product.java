@@ -36,6 +36,8 @@ public class Product {
                 if(ps.executeUpdate()>0)
                 {
                     JOptionPane.showMessageDialog(null,"Added New Product");
+                    
+                 
                 }
                 
             } catch (SQLException ex) {

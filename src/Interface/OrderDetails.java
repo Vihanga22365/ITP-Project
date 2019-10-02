@@ -5,6 +5,7 @@
  */
 package Interface;
 
+import Code.DBconnect;
 import Code.Order;
 import java.awt.Color;
 import java.awt.Font;
@@ -12,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,6 +23,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -36,14 +39,37 @@ public class OrderDetails extends javax.swing.JFrame {
     Connection con = null;
     Order o1 = new Order();
     DefaultTableModel model;
+    ResultSet rs = null;
     
     public OrderDetails() {
         initComponents();
+        con = DBconnect.connect();
         getConnection();
         theader();
         
         o1.fillOrderTable(Otable, "");
         model = (DefaultTableModel) Otable.getModel();
+        
+        
+        AutoCompleteDecorator.decorate(ProductNameComboBox);
+        FillComboSupplierBox();
+    }
+    
+      private void FillComboSupplierBox() {
+              try{
+                    String sql = "SELECT * from product"; 
+                    pst = con.prepareStatement(sql);
+                    rs=pst.executeQuery();
+
+                    while(rs.next()){
+
+                    String productname = rs.getString("pname");
+                    ProductNameComboBox.addItem(productname);
+               }
+            }
+            catch(Exception e){
+                     JOptionPane.showConfirmDialog(null,e);
+                }
     }
     
     public Connection getConnection()
@@ -82,7 +108,6 @@ public class OrderDetails extends javax.swing.JFrame {
         Otable = new javax.swing.JTable();
         oqtybox = new javax.swing.JTextField();
         oidbox = new javax.swing.JTextField();
-        oproductbox = new javax.swing.JTextField();
         oamountbox = new javax.swing.JTextField();
         odatebox = new com.toedter.calendar.JDateChooser();
         oupdate = new javax.swing.JButton();
@@ -91,6 +116,7 @@ public class OrderDetails extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        ProductNameComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -175,15 +201,6 @@ public class OrderDetails extends javax.swing.JFrame {
             }
         });
 
-        oproductbox.setFont(new java.awt.Font("Segoe UI Semibold", 0, 15)); // NOI18N
-        oproductbox.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
-        oproductbox.setPreferredSize(new java.awt.Dimension(250, 40));
-        oproductbox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                oproductboxActionPerformed(evt);
-            }
-        });
-
         oamountbox.setFont(new java.awt.Font("Segoe UI Semibold", 0, 15)); // NOI18N
         oamountbox.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         oamountbox.setPreferredSize(new java.awt.Dimension(250, 40));
@@ -257,6 +274,11 @@ public class OrderDetails extends javax.swing.JFrame {
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/loupe.png"))); // NOI18N
 
+        ProductNameComboBox.setFont(new java.awt.Font("Segoe UI Semibold", 1, 15)); // NOI18N
+        ProductNameComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Product in Stock" }));
+        ProductNameComboBox.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        ProductNameComboBox.setPreferredSize(new java.awt.Dimension(250, 40));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -281,11 +303,6 @@ public class OrderDetails extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(69, 69, 69)
-                                        .addComponent(jLabel2)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(oidbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel5)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -297,12 +314,21 @@ public class OrderDetails extends javax.swing.JFrame {
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(73, 73, 73)
                                                 .addComponent(jLabel6)))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(odatebox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(oqtybox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(oamountbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(ProductNameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(69, 69, 69)
+                                        .addComponent(jLabel2)
                                         .addGap(18, 18, 18)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(oproductbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(odatebox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(oqtybox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(oamountbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(oidbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
@@ -322,13 +348,13 @@ public class OrderDetails extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(51, 51, 51)
+                .addGap(76, 76, 76)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(osearchbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -336,20 +362,20 @@ public class OrderDetails extends javax.swing.JFrame {
                                 .addGap(1, 1, 1)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(oidbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(14, 14, 14)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)
+                                .addGap(13, 13, 13)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ProductNameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(25, 25, 25)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(19, 19, 19)
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(24, 24, 24)
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(oproductbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(72, 72, 72)
                                 .addComponent(odatebox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(oqtybox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -387,8 +413,10 @@ public class OrderDetails extends javax.swing.JFrame {
     public boolean verifText()
     {
         
-        if      (oidbox.getText().equals("")||oproductbox.getText().equals("")
-                ||oqtybox.getText().equals("")||oamountbox.getText().equals("")
+        if      (oidbox.getText().equals("")
+                ||ProductNameComboBox.getSelectedItem().equals("Select Product in Stock")
+                ||oqtybox.getText().equals("")
+                ||oamountbox.getText().equals("")
                 ||odatebox.getDate() == null)
         {
             JOptionPane.showMessageDialog(null,"One or More Field Empty.");
@@ -410,14 +438,6 @@ public class OrderDetails extends javax.swing.JFrame {
         
     }
     
-    private void oamountboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oamountboxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_oamountboxActionPerformed
-
-    private void oproductboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oproductboxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_oproductboxActionPerformed
-
     private void oidboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oidboxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_oidboxActionPerformed
@@ -428,7 +448,8 @@ public class OrderDetails extends javax.swing.JFrame {
 
     private void oaddbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oaddbuttonActionPerformed
           String oid = oidbox.getText();
-          String oproduct = oproductbox.getText();
+          //String oproduct = oproductbox.getText();
+          String productName = ProductNameComboBox.getSelectedItem().toString();
           String oqty = oqtybox.getText();
           String oamount = oamountbox.getText();
           
@@ -437,7 +458,7 @@ public class OrderDetails extends javax.swing.JFrame {
                 String odate = dateFormat.format(odatebox.getDate());
                
                 Order o = new Order();
-                o.insertUpdateDeleteOrder('i', oid, oproduct, odate, oqty, oamount);
+                o.insertUpdateDeleteOrder('i', oid, productName, odate, oqty, oamount);
                 
                 OrderDetails.Otable.setModel(new DefaultTableModel(null,new Object[]{"Order ID" , "Ordered Product" , "Order Date" , "Quntity" , "Amount"}));
                 o.fillOrderTable(OrderDetails.Otable, "");
@@ -449,7 +470,8 @@ public class OrderDetails extends javax.swing.JFrame {
     private void oupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oupdateActionPerformed
         // TODO add your handling code here:
           String oid = oidbox.getText();
-          String oproduct = oproductbox.getText();
+         // String oproduct = oproductbox.getText();
+         String productName = ProductNameComboBox.getSelectedItem().toString();
           String oqty = oqtybox.getText();
           String oamount = oamountbox.getText();
           
@@ -458,7 +480,7 @@ public class OrderDetails extends javax.swing.JFrame {
                 String odate = dateFormat.format(odatebox.getDate());
                
                 Order o = new Order();
-                o.insertUpdateDeleteOrder('u', oid, oproduct, odate, oqty, oamount);
+                o.insertUpdateDeleteOrder('u', oid, productName, odate, oqty, oamount);
                 OrderDetails.Otable.setModel(new DefaultTableModel(null,new Object[]{"Order ID" , "Ordered Product" , "Order Date" , "Quntity" , "Amount"}));
                 o.fillOrderTable(OrderDetails.Otable, "");
           }
@@ -485,7 +507,7 @@ public class OrderDetails extends javax.swing.JFrame {
             o1.fillOrderTable(Otable, osearchbox.getText());
             
             oidbox.setText("");
-            oproductbox.setText("");
+            ProductNameComboBox.setSelectedItem("");
             oqtybox.setText("");
             oamountbox.setText("");
             odatebox.setDate(null);
@@ -500,7 +522,8 @@ public class OrderDetails extends javax.swing.JFrame {
         
         
         oidbox.setText(model.getValueAt(rowIndex, 0).toString());
-        oproductbox.setText(model.getValueAt(rowIndex, 1).toString());
+        //oproductbox.setText(model.getValueAt(rowIndex, 1).toString());
+        ProductNameComboBox.setSelectedItem(model.getValueAt(rowIndex, 1).toString());
         oqtybox.setText(model.getValueAt(rowIndex, 3).toString());
         oamountbox.setText(model.getValueAt(rowIndex, 4).toString());
         
@@ -546,7 +569,8 @@ public class OrderDetails extends javax.swing.JFrame {
         
         
             oidbox.setText(model.getValueAt(rowIndex, 0).toString());
-            oproductbox.setText(model.getValueAt(rowIndex, 1).toString());
+           // oproductbox.setText(model.getValueAt(rowIndex, 1).toString());
+            ProductNameComboBox.setSelectedItem(model.getValueAt(rowIndex, 1).toString());
             oqtybox.setText(model.getValueAt(rowIndex, 3).toString());
             oamountbox.setText(model.getValueAt(rowIndex, 4).toString());
             
@@ -571,6 +595,10 @@ public class OrderDetails extends javax.swing.JFrame {
         sm.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void oamountboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oamountboxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_oamountboxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -609,6 +637,7 @@ public class OrderDetails extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JTable Otable;
+    private javax.swing.JComboBox<String> ProductNameComboBox;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -625,7 +654,6 @@ public class OrderDetails extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser odatebox;
     private javax.swing.JButton odelete;
     private javax.swing.JTextField oidbox;
-    private javax.swing.JTextField oproductbox;
     private javax.swing.JTextField oqtybox;
     private javax.swing.JTextField osearchbox;
     private javax.swing.JButton oupdate;
