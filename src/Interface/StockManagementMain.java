@@ -259,14 +259,14 @@ public class StockManagementMain extends javax.swing.JFrame {
 
     private void reportbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportbtnActionPerformed
         // TODO add your handling code here:
-        StockDetails R = new StockDetails();
-        R.setVisible(true);
-        this.dispose();
+//        StockDetails R = new StockDetails();
+//        R.setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_reportbtnActionPerformed
 
     private void productbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productbtnActionPerformed
         // TODO add your handling code here:
-        ProductDetails p = new ProductDetails();
+        StockDetails p = new StockDetails();
         p.setVisible(true);
         this.dispose();
         
