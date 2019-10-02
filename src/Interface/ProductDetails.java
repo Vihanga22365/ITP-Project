@@ -117,59 +117,13 @@ public class ProductDetails extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ptableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ptableMouseClicked
-        // TODO add your handling code here:
-
-        rowIndex = ptable.getSelectedRow();
-
-        sidbox.setText(model.getValueAt(rowIndex, 0).toString());
-        pidbox.setText(model.getValueAt(rowIndex, 1).toString());
-        pnamebox.setText(model.getValueAt(rowIndex, 2).toString());
-        ppricebox.setText(model.getValueAt(rowIndex, 5).toString());
-        pqtybox.setText(model.getValueAt(rowIndex, 6).toString());
-        //psupnamebox.setText(model.getValueAt(rowIndex, 6).toString());
-        SupplierNameComboBox.setSelectedItem(model.getValueAt(rowIndex, 7).toString());
-
-        Date manudate , expdate;
-
-        try {
-            manudate = new SimpleDateFormat("yyyy-MM-dd").parse(model.getValueAt(rowIndex, 3).toString());
-            expdate = new SimpleDateFormat("yyyy-MM-dd").parse(model.getValueAt(rowIndex, 4).toString());
-
-            pmanudatebox.setDate(manudate);
-            pexpdatebox.setDate(expdate);
-
-        } catch (ParseException ex) {
-            Logger.getLogger(StockDetails.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
 
     }//GEN-LAST:event_ptableMouseClicked
 
     private void ptableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ptableKeyReleased
         // TODO add your handling code here:
-        if(evt.getKeyCode() == KeyEvent.VK_UP || evt.getKeyCode() == KeyEvent.VK_DOWN )
-        {
-
-            rowIndex = ptable.getSelectedRow();
-            pidbox.setText(model.getValueAt(rowIndex, 0).toString());
-            pnamebox.setText(model.getValueAt(rowIndex, 1).toString());
-            ppricebox.setText(model.getValueAt(rowIndex, 4).toString());
-            pqtybox.setText(model.getValueAt(rowIndex, 5).toString());
-            // psupnamebox.setText(model.getValueAt(rowIndex, 6).toString());
-            SupplierNameComboBox.setSelectedItem(model.getValueAt(rowIndex, 6).toString());
-
-            Date manudate , expdate;
-
-            try {
-                manudate = new SimpleDateFormat("yyyy-MM-dd").parse(model.getValueAt(rowIndex, 2).toString());
-                expdate = new SimpleDateFormat("yyyy-MM-dd").parse(model.getValueAt(rowIndex, 3).toString());
-
-                pmanudatebox.setDate(manudate);
-                pexpdatebox.setDate(expdate);
-
-            } catch (ParseException ex) {
-                Logger.getLogger(StockDetails.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+       
     }//GEN-LAST:event_ptableKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
