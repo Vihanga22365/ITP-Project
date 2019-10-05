@@ -52,7 +52,7 @@
     <Container class="javax.swing.JPanel" name="jPanel2">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="66" red="33" type="rgb"/>
+          <Color blue="24" green="aa" red="d6" type="rgb"/>
         </Property>
       </Properties>
 
@@ -166,7 +166,7 @@
     <Container class="javax.swing.JPanel" name="jPanel3">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="32" green="12" red="0" type="rgb"/>
+          <Color blue="0" green="0" red="33" type="rgb"/>
         </Property>
       </Properties>
 
@@ -296,6 +296,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Customer Management"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton2">
           <Properties>
@@ -331,6 +334,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Financial Management"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton6">
           <Properties>
@@ -339,6 +345,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Routing Management"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton6ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton7">
           <Properties>

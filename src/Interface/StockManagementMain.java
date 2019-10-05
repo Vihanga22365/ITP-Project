@@ -53,7 +53,7 @@ public class StockManagementMain extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(180, 255, 150));
+        jPanel1.setBackground(new java.awt.Color(214, 170, 36));
 
         supplierbtn.setBackground(new java.awt.Color(8, 88, 8));
         supplierbtn.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -141,7 +141,7 @@ public class StockManagementMain extends javax.swing.JFrame {
             }
         });
 
-        jPanel4.setBackground(new java.awt.Color(0, 18, 50));
+        jPanel4.setBackground(new java.awt.Color(51, 0, 0));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(204, 204, 204));

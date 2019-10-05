@@ -52,7 +52,7 @@ public class SendEmail extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(180, 255, 150));
+        jPanel1.setBackground(new java.awt.Color(214, 170, 36));
         jPanel1.setPreferredSize(new java.awt.Dimension(1100, 700));
 
         address.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
@@ -148,7 +148,7 @@ public class SendEmail extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
-        jPanel3.setBackground(new java.awt.Color(0, 18, 50));
+        jPanel3.setBackground(new java.awt.Color(51, 0, 0));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(204, 204, 204));
