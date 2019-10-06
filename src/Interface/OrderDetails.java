@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -133,7 +134,7 @@ public class OrderDetails extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(214, 170, 36));
+        jPanel1.setBackground(new java.awt.Color(204, 255, 204));
         jPanel1.setPreferredSize(new java.awt.Dimension(1100, 700));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
@@ -432,7 +433,7 @@ public class OrderDetails extends javax.swing.JFrame {
                         .addGap(63, 63, 63))))
         );
 
-        jPanel3.setBackground(new java.awt.Color(51, 0, 0));
+        jPanel3.setBackground(new java.awt.Color(0, 0, 0));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(204, 204, 204));
@@ -479,15 +480,18 @@ public class OrderDetails extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel2.setBackground(new java.awt.Color(0, 51, 0));
 
         jLabel16.setFont(new java.awt.Font("Segoe UI Light", 1, 48)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Bio Foods ");
 
         jLabel17.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Point of Sales System");
 
         jLabel1.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Order Details");
 
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 15)); // NOI18N
@@ -558,7 +562,11 @@ public class OrderDetails extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public boolean verifText()
+            
     {
+        
+        String sprice = oamountbox.getText();
+        String sqty = oqtybox.getText();
         
         if      (oidbox.getText().equals("")
                 ||ProductNameComboBox.getSelectedItem().equals("Select Product in Stock")
@@ -569,6 +577,25 @@ public class OrderDetails extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"One or More Field Empty.");
             return false;
         }
+        
+         else if (!Pattern.matches("^[1-9]\\d*(\\.\\d+)?$",sprice))
+        {
+            JOptionPane.showMessageDialog(null,"Amount Must Add Valid Format");
+            return false;
+        }
+        
+        else if (!Pattern.matches("^[1-9]\\d*(\\.\\d+)?$",sqty))
+        {
+            JOptionPane.showMessageDialog(null,"Quntity Must Add Valid Format");
+            return false;
+        }
+        
+        else if (odatebox.getDate().compareTo(new Date ()) < 0)
+        {
+            JOptionPane.showMessageDialog(null,"Order Date Less Than The Current Date.");
+            return false;
+        }
+        
  
         else
         {

@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
@@ -93,16 +95,20 @@ public class MAIN extends javax.swing.JFrame {
         setBackground(new java.awt.Color(51, 102, 255));
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel1.setBackground(new java.awt.Color(0, 51, 0));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("     FINANCIAL DETAILS");
 
         jLabel16.setFont(new java.awt.Font("Segoe UI Light", 1, 48)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Bio Foods ");
 
         jLabel17.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Point of Sales System");
 
         jButton7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 15)); // NOI18N
@@ -176,7 +182,7 @@ public class MAIN extends javax.swing.JFrame {
             .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
         );
 
-        jPanel3.setBackground(new java.awt.Color(214, 170, 36));
+        jPanel3.setBackground(new java.awt.Color(204, 255, 204));
         jPanel3.setForeground(new java.awt.Color(214, 170, 36));
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -207,7 +213,6 @@ public class MAIN extends javax.swing.JFrame {
             }
         });
 
-        emailbox.setText("@gmail");
         emailbox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailboxActionPerformed(evt);
@@ -391,7 +396,7 @@ public class MAIN extends javax.swing.JFrame {
                     .addContainerGap(174, Short.MAX_VALUE)))
         );
 
-        jPanel4.setBackground(new java.awt.Color(51, 0, 0));
+        jPanel4.setBackground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -435,7 +440,40 @@ public class MAIN extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_methodsboxActionPerformed
 
-    
+    public boolean verifText()
+    {
+        
+        String sprice = amountbox.getText();
+        String semail = emailbox.getText();
+        
+        if      (idbox.getText().equals("")
+                ||methodsbox.getSelectedItem().equals(" ")
+                ||amountbox.getText().equals("")
+                ||datebox.getText().equals("")
+                ||emailbox.getText().equals("") )
+        {
+            JOptionPane.showMessageDialog(null,"One or More Field Empty.");
+            return false;
+        }
+        
+        else if (!Pattern.matches("^[1-9]\\d*(\\.\\d+)?$",sprice))
+        {
+            JOptionPane.showMessageDialog(null,"Amount Must Add Valid Format");
+            return false;
+        }
+        
+        else if ((!emailbox.getText().equals("") && (!Pattern.matches("^[A-Za-z0-9_.]+[@][A-Za-z.]+$",emailbox.getText()) )))
+        {
+            JOptionPane.showMessageDialog(null,"Email Not Valid");
+            return false;
+        }
+
+        else
+        {
+            return true;
+        }
+        
+    }
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
          
@@ -445,25 +483,10 @@ public class MAIN extends javax.swing.JFrame {
         String date =datebox.getText();
         String email = emailbox.getText();
         
-        if (id.equals("")){
-            JOptionPane.showMessageDialog(null,"ID CAN'T BE EMPTY");
-        }
-        
-         if(amount.equals("")){
-            JOptionPane.showMessageDialog(null,"AMOUNT CAN'T BE EMPTY");
-        }
-          if(method.equals("")){
-            JOptionPane.showMessageDialog(null,"PLEASE SELECT A METHOD");
-        }
-           if(date.equals("")){
-            JOptionPane.showMessageDialog(null,"DATE CAN'T BE EMPTY");
-        }
-            if(email.equals("")){
-            JOptionPane.showMessageDialog(null,"EMAIL CAN'T BE EMPTY");
-        }
+   
 
             
-            {
+       if(verifText()){     
         
        try
            
@@ -481,12 +504,14 @@ public class MAIN extends javax.swing.JFrame {
        catch (SQLException e)
        {
        }
+       
+       }
          idbox.setText(null);
         amountbox.setText(null);
         datebox.setText(null);
         emailbox.setText(null);
      
-             }
+             
        
     }//GEN-LAST:event_jButton1ActionPerformed
 

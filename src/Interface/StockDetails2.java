@@ -65,6 +65,66 @@ public class StockDetails2 extends javax.swing.JFrame {
         
     }
     
+     public boolean verifText()
+    {
+        Date manu = pmanudatebox.getDate();
+        Date exp = pexpdatebox.getDate();
+        String sprice = ppricebox.getText();
+        String sqty = pqtybox.getText();
+        
+        if      (sidbox.getText().equals("")
+                ||proIDComboBox.getSelectedItem().equals("Choose Product Id")
+                ||proNameComboBox.getSelectedItem().equals("Choose Product Name")
+                ||ppricebox.getText().equals("")
+                ||pqtybox.getText().equals("")
+                ||SupplierNameComboBox.getSelectedItem().equals("Choose Supplier") 
+                || pmanudatebox.getDate() == null 
+                || pexpdatebox.getDate() == null)
+        {
+            JOptionPane.showMessageDialog(null,"One or More Field Empty.");
+            return false;
+        }
+        
+        else if (!Pattern.matches("^[1-9]\\d*(\\.\\d+)?$",sprice))
+        {
+            JOptionPane.showMessageDialog(null,"Price Must Add Valid Format");
+            return false;
+        }
+        
+        else if (!Pattern.matches("^[1-9]\\d*(\\.\\d+)?$",sqty))
+        {
+            JOptionPane.showMessageDialog(null,"Quntity Must Add Valid Format");
+            return false;
+        }
+        
+        
+        //Validate Expiery Date
+        else if(manu.compareTo(exp) > 0)
+        {
+            JOptionPane.showMessageDialog(null,"Manufacture Date Higher Than The Exp Date.");
+            return false;
+        }
+        
+        
+
+        
+        //choose manufacture date higher than the current date
+        else if (manu.compareTo(new Date ()) > 0)
+        {
+            JOptionPane.showMessageDialog(null,"Manufacture Date Higher Than The Current Date.");
+            return false;
+        }
+        
+        
+        
+        else
+        {
+            return true;
+        }
+        
+            
+    }
+    
     private void theader(){
         JTableHeader thead = ptable.getTableHeader();
         thead.setForeground(Color.BLACK);
@@ -235,6 +295,8 @@ public class StockDetails2 extends javax.swing.JFrame {
                               "Stock update", 
                               JOptionPane.PLAIN_MESSAGE);
             
+            clearTextBoxes();
+            
         } catch (SQLException ex) {
             Logger.getLogger(StockDetails2.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
@@ -276,6 +338,7 @@ public class StockDetails2 extends javax.swing.JFrame {
                               "Error! Stock delete unsuccessful", 
                               "Delete Stock", 
                               JOptionPane.WARNING_MESSAGE);
+            clearTextBoxes();
         }
         } else if(x==1) {
             
@@ -420,7 +483,7 @@ public class StockDetails2 extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(214, 170, 36));
+        jPanel1.setBackground(new java.awt.Color(204, 255, 204));
         jPanel1.setPreferredSize(new java.awt.Dimension(1100, 700));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
@@ -784,7 +847,7 @@ public class StockDetails2 extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
-        jPanel3.setBackground(new java.awt.Color(51, 0, 0));
+        jPanel3.setBackground(new java.awt.Color(0, 0, 0));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(204, 204, 204));
@@ -831,12 +894,14 @@ public class StockDetails2 extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel2.setBackground(new java.awt.Color(0, 51, 0));
 
         jLabel16.setFont(new java.awt.Font("Segoe UI Light", 1, 48)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Bio Foods ");
 
         jLabel17.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Point of Sales System");
 
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 15)); // NOI18N
@@ -851,6 +916,7 @@ public class StockDetails2 extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Stock Details");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -925,7 +991,10 @@ public class StockDetails2 extends javax.swing.JFrame {
 
     private void oaddbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oaddbuttonActionPerformed
         //Insert
+        if(verifText()){
         createStock();
+        
+        }
     }//GEN-LAST:event_oaddbuttonActionPerformed
 
     private void ptableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ptableMouseClicked
@@ -974,7 +1043,9 @@ public class StockDetails2 extends javax.swing.JFrame {
 
     private void pupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pupdateActionPerformed
         //update
+        if(verifText()){
         updateStock();
+        }
     }//GEN-LAST:event_pupdateActionPerformed
 
     private void pdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pdeleteActionPerformed
@@ -990,14 +1061,8 @@ public class StockDetails2 extends javax.swing.JFrame {
                
     }//GEN-LAST:event_searchboxKeyPressed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        StockManagementMain sm = new StockManagementMain();
-        sm.setVisible(true);
-        this.dispose();   
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-    
+        clearTextBoxes();    
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void sidboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sidboxActionPerformed
@@ -1067,6 +1132,12 @@ public class StockDetails2 extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_searchbtnActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        StockManagementMain sm = new StockManagementMain();
+        sm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

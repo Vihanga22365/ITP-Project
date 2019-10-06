@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import Code.DBconnect;
+import java.util.Date;
+import java.util.regex.Pattern;
 /**
  *
  * @author ASUS
@@ -77,7 +79,7 @@ public class OrderdetailsLayodya extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(204, 255, 204));
 
         jPanel2.setBackground(new java.awt.Color(0, 177, 106));
 
@@ -257,12 +259,14 @@ public class OrderdetailsLayodya extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel5.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel5.setBackground(new java.awt.Color(0, 51, 0));
 
         jLabel16.setFont(new java.awt.Font("Segoe UI Light", 1, 48)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Bio Foods ");
 
         jLabel17.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Point of Sales System");
 
         jButton5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 15)); // NOI18N
@@ -313,7 +317,7 @@ public class OrderdetailsLayodya extends javax.swing.JFrame {
                         .addContainerGap(32, Short.MAX_VALUE))))
         );
 
-        jPanel6.setBackground(new java.awt.Color(51, 0, 0));
+        jPanel6.setBackground(new java.awt.Color(0, 0, 0));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(204, 204, 204));
@@ -396,7 +400,9 @@ public class OrderdetailsLayodya extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       String Oid = jTextField1.getText();
+       
+        if(verifText()){
+        String Oid = jTextField1.getText();
        
        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
        String Odate = dateFormat.format(jDateChooser1.getDate());
@@ -404,28 +410,7 @@ public class OrderdetailsLayodya extends javax.swing.JFrame {
        String Otime = jTextField4.getText();
        String Rid = jTextField5.getText();
        String Vid = jTextField3.getText();
-       
-       if(Oid.equals("")){
-            JOptionPane.showMessageDialog(null, "Order ID is Mandotory");
-            }
-       if(Odate.equals("")){
-            JOptionPane.showMessageDialog(null, "Order Date is Mandotory");
-            }
-       
-         if(Otime.equals("")){
-            JOptionPane.showMessageDialog(null, "Order Time is Mandotory");
-        }
-          if(Rid.equals("")){
-            JOptionPane.showMessageDialog(null, "Rider ID is Mandotory");
-        }
-           if(Vid.equals("")){
-            JOptionPane.showMessageDialog(null, "Vehicle ID is Mandotory");
-        }
-            else {
-                 JOptionPane.showMessageDialog(null, "Submit is Successful!");
-        }
-      
-       
+    
         try {
      String p = "INSERT INTO Odetails(Date, Time, RiderID, VehicleID) VALUES ('"+Odate+"','"+Otime+"','"+Rid+"','"+Vid+"')";
             pst = con.prepareStatement(p);
@@ -436,9 +421,43 @@ public class OrderdetailsLayodya extends javax.swing.JFrame {
         catch (Exception e) 
         {
             
-        }        // TODO add your handling code here:
+        }     
+        
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    
+    public boolean verifText()
+    {
+        Date date1 = jDateChooser1.getDate();
+        
+        if      (jTextField3.getText().equals("")
+                ||jTextField5.getText().equals("")
+                ||jTextField4.getText().equals("")
+                || jDateChooser1.getDate() == null)
+        {
+            JOptionPane.showMessageDialog(null,"One or More Field Empty.");
+            return false;
+        }
+
+
+        
+        //choose manufacture date higher than the current date
+        else if (date1.compareTo(new Date ()) < 0)
+        {
+            JOptionPane.showMessageDialog(null,"Date Less Than Current Date.");
+            return false;
+        }
+        
+        
+        
+        else
+        {
+            return true;
+        }
+        
+            
+    }
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
